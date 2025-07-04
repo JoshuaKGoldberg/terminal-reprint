@@ -12,7 +12,6 @@
 <!-- ALL-CONTRIBUTORS-BADGE:END -->
 	<!-- prettier-ignore-end -->
 	<a href="https://github.com/JoshuaKGoldberg/terminal-reprint/blob/main/.github/CODE_OF_CONDUCT.md" target="_blank"><img alt="🤝 Code of Conduct: Kept" src="https://img.shields.io/badge/%F0%9F%A4%9D_code_of_conduct-kept-21bb42" /></a>
-	<a href="https://codecov.io/gh/JoshuaKGoldberg/terminal-reprint" target="_blank"><img alt="🧪 Coverage" src="https://img.shields.io/codecov/c/github/JoshuaKGoldberg/terminal-reprint?label=%F0%9F%A7%AA%20coverage" /></a>
 	<a href="https://github.com/JoshuaKGoldberg/terminal-reprint/blob/main/LICENSE.md" target="_blank"><img alt="📝 License: MIT" src="https://img.shields.io/badge/%F0%9F%93%9D_license-MIT-21bb42.svg" /></a>
 	<a href="http://npmjs.com/package/terminal-reprint" target="_blank"><img alt="📦 npm version" src="https://img.shields.io/npm/v/terminal-reprint?color=21bb42&label=%F0%9F%93%A6%20npm" /></a>
 	<img alt="💪 TypeScript: Strict" src="https://img.shields.io/badge/%F0%9F%92%AA_typescript-strict-21bb42.svg" />
@@ -25,9 +24,61 @@ npm i terminal-reprint
 ```
 
 ```ts
-import { greet } from "terminal-reprint";
+import { startPrinter } from "terminal-reprint";
 
-greet("Hello, world! 💖");
+let prints = 1;
+
+using printer = startPrinter(() => [
+	"Hello, world! 💖",
+	`I have printed: ${prints} time(s).`,
+]);
+
+setInterval(() => {
+	prints += 1;
+	printer.reprint();
+}, 1000);
+```
+
+## `startPrinter`
+
+Calling `startPrinter` clears the terminal screen, hides the cursor with [`cli-cursor`](http://github.com/sindresorhus/cli-cursor), and prints the lines returned by the provided print function.
+It will then update the screen efficiently whenever the return printer's `reprint` method is called.
+
+Printer functions receive a [`PrinterContext`](#printercontext) object.
+
+Created printers are _disposable_: they should be created with a `using` statement.
+Upon disposable, they show the cursor again.
+
+### `startPrinter` Options
+
+`startPrinter` accepts either a print function or an object containing:
+
+- `print` _(required)_: the same print function
+- `stream` _(optional)_: a writable stream to print to (by default, `process.stdout`)
+
+```ts
+using printer = startPrinter({
+	print: () => ["Hello, world! 💖"],
+	stream: process.stderr,
+});
+
+printer.reprint();
+```
+
+### `PrinterContext`
+
+The context object provided to print functions contains:
+
+- `columns`: the number of columns in the output stream
+- `rows`: the number of rows in the output stream
+
+```ts
+using printer = startPrinter((context) => [
+	`I have ${context.columns} columns.`,
+	`I have ${context.rows} rows.`,
+]);
+
+printer.reprint();
 ```
 
 ## Development
