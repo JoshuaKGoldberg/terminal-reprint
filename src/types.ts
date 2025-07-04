@@ -7,16 +7,11 @@ export interface PrintContext {
 	rows: number;
 }
 
-export interface Printer {
+export interface Printer extends Disposable {
 	reprint(): void;
 }
 
 export interface PrinterOptions {
 	print: Print;
-	stream?: PrintStream;
+	stream?: WriteStream;
 }
-
-export type PrintStream = Pick<
-	WriteStream,
-	"clearLine" | "clearScreenDown" | "columns" | "cursorTo" | "rows" | "write"
->;

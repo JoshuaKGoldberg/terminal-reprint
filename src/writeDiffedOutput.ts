@@ -1,33 +1,34 @@
-import type { PrintStream } from "./types.ts";
+import type { WriteStream } from "node:tty";
 
 export function writeDiffedOutput(
 	previous: string[],
 	next: string[],
-	stream: PrintStream,
+	stream: WriteStream,
 ) {
-	for (let i = 0; i < next.length; i += 1) {
-		// TODO: Look into clearing multiple lines at a time
+	stream.cursorTo(0, 0);
+
+	if (next.length === 0) {
+		stream.clearScreenDown();
+		return;
+	}
+
+	const sharedHeight = Math.min(next.length, previous.length);
+
+	for (let i = 0; i < sharedHeight; i += 1) {
 		if (previous[i] !== next[i]) {
 			stream.cursorTo(0, i);
 
-			// TODO: Look into clearing just the parts that are changed, more intelligently
+			// TODO: Look into clearing just the directions that are changed
 			stream.clearLine(0);
-
 			stream.write(next[i]);
 		}
 	}
 
-	if (previous.length < next.length) {
-		stream.cursorTo(0, previous.length + 1);
-		stream.write(next.slice(previous.length).join("\n"));
-	} else if (previous.length > next.length) {
-		for (let i = next.length; i < previous.length; i += 1) {
-			stream.cursorTo(0, i);
-			stream.clearLine(0);
-		}
-	}
+	stream.cursorTo(0, sharedHeight);
 
-	stream.write("\n");
-	stream.write(next[next.length - 1]);
-	stream.write("\n");
+	if (previous.length < next.length) {
+		stream.write(next.slice(previous.length, next.length).join("\n"));
+	} else if (previous.length > next.length) {
+		stream.clearScreenDown();
+	}
 }

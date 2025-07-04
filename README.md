@@ -25,9 +25,61 @@ npm i terminal-reprint
 ```
 
 ```ts
-import { greet } from "terminal-reprint";
+import { startPrinter } from "terminal-reprint";
 
-greet("Hello, world! 💖");
+let prints = 1;
+
+using printer = startPrinter(() => [
+	"Hello, world! 💖",
+	`I have printed: ${prints} time(s).`,
+]);
+
+setInterval(() => {
+	prints += 1;
+	printer.reprint();
+}, 1000);
+```
+
+## `startPrinter`
+
+Calling `startPrinter` clears the terminal screen, hides the cursor with [`cli-cursor`](http://github.com/sindresorhus/cli-cursor), and prints the lines returned by the provided print function.
+It will then update the screen efficiently whenever the return printer's `reprint` method is called.
+
+Printer functions receive a [`PrinterContext`](#printercontext) object.
+
+Created printers are _disposable_: they should be created with a `using` statement.
+Upon disposable, they show the cursor again.
+
+### `startPrinter` Options
+
+`startPrinter` accepts either a print function or an object containing:
+
+- `print` _(required)_: the same print function
+- `stream` _(optional)_: a writable stream to print to (by default, `process.stdout`)
+
+```ts
+using printer = startPrinter({
+	print: () => ["Hello, world! 💖"],
+	stream: process.stderr,
+});
+
+printer.reprint();
+```
+
+### `PrinterContext`
+
+The context object provided to print functions contains:
+
+- `columns`: the number of columns in the output stream
+- `rows`: the number of rows in the output stream
+
+```ts
+using printer = startPrinter((context) => [
+	`I have ${context.columns} columns.`,
+	`I have ${context.rows} rows.`,
+]);
+
+printer.reprint();
 ```
 
 ## Development
