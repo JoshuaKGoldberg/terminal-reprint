@@ -19,6 +19,7 @@ export function writeDiffedOutput(
 			stream.cursorTo(0, i);
 
 			// TODO: Look into clearing just the directions that are changed
+			// https://github.com/JoshuaKGoldberg/terminal-reprint/issues/7
 			stream.clearLine(0);
 			stream.write(next[i]);
 		}
