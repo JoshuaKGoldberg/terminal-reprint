@@ -1,6 +1,6 @@
 {
 	"name": "terminal-reprint",
-	"version": "0.0.0",
+	"version": "0.1.0",
 	"description": "Efficiently (re)-prints text into your terminal. 🖨",
 	"repository": {
 		"type": "git",
