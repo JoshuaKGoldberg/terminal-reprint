@@ -1,5 +1,6 @@
 import comments from "@eslint-community/eslint-plugin-eslint-comments/configs";
 import eslint from "@eslint/js";
+import vitest from "@vitest/eslint-plugin";
 import jsdoc from "eslint-plugin-jsdoc";
 import jsonc from "eslint-plugin-jsonc";
 import markdown from "eslint-plugin-markdown";
@@ -12,7 +13,7 @@ import tseslint from "typescript-eslint";
 
 export default tseslint.config(
 	{
-		ignores: ["lib", "node_modules", "pnpm-lock.yaml"],
+		ignores: ["coverage", "lib", "node_modules", "pnpm-lock.yaml"],
 	},
 	{ linterOptions: { reportUnusedDisableDirectives: "error" } },
 	eslint.configs.recommended,
@@ -58,8 +59,10 @@ export default tseslint.config(
 		rules: { "n/no-missing-import": "off" },
 	},
 	{
+		extends: [vitest.configs.recommended],
 		files: ["**/*.test.*"],
 		rules: { "@typescript-eslint/no-unsafe-assignment": "off" },
+		settings: { vitest: { typecheck: true } },
 	},
 	{
 		extends: [yml.configs["flat/standard"], yml.configs["flat/prettier"]],
