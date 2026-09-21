@@ -21,7 +21,7 @@ const stream = {
 	},
 } as unknown as WriteStream;
 
-describe("writeDiffedOutput", () => {
+describe(writeDiffedOutput, () => {
 	it("clears the screen when next is empty", () => {
 		writeDiffedOutput(["a", "b"], [], stream);
 

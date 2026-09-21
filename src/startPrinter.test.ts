@@ -35,7 +35,7 @@ function createMockStream(properties: Partial<WriteStream> = {}) {
 
 const stream = createMockStream();
 
-describe("startPrinter", () => {
+describe(startPrinter, () => {
 	afterEach(() => {
 		vi.restoreAllMocks();
 	});

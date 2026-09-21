@@ -13,7 +13,7 @@ import tseslint from "typescript-eslint";
 
 export default tseslint.config(
 	{
-		ignores: ["coverage", "lib", "node_modules", "pnpm-lock.yaml"],
+		ignores: ["**/*.snap", "coverage", "lib", "node_modules", "pnpm-lock.yaml"],
 	},
 	{ linterOptions: { reportUnusedDisableDirectives: "error" } },
 	eslint.configs.recommended,
@@ -61,7 +61,10 @@ export default tseslint.config(
 	{
 		extends: [vitest.configs.recommended],
 		files: ["**/*.test.*"],
-		rules: { "@typescript-eslint/no-unsafe-assignment": "off" },
+		rules: {
+			"@typescript-eslint/no-unsafe-assignment": "off",
+			"vitest/prefer-describe-function-title": "error",
+		},
 		settings: { vitest: { typecheck: true } },
 	},
 	{
