@@ -40,6 +40,12 @@ setInterval(() => {
 }, 1000);
 ```
 
+<picture>
+	<source media="(prefers-color-scheme: dark)" srcset="https://github.com/user-attachments/assets/a8368aca-5c5c-428a-83b3-ff5f159f338e" />
+	<source media="(prefers-color-scheme: light)" srcset="https://github.com/user-attachments/assets/588883a2-9f80-4bef-ab95-87a82c6ecb02" />
+	<img alt="A terminal printing 'Hello, world! 💖' and a count of how many times it has printed, updating every second." src="https://github.com/user-attachments/assets/588883a2-9f80-4bef-ab95-87a82c6ecb02" />
+</picture>
+
 ## `startPrinter`
 
 Calling `startPrinter` clears the terminal screen, hides the cursor with [`cli-cursor`](http://github.com/sindresorhus/cli-cursor), and prints the lines returned by the provided print function.
