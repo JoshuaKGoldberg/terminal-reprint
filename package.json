@@ -38,7 +38,7 @@
 		"cli-cursor": "^5.0.0"
 	},
 	"devDependencies": {
-		"@eslint-community/eslint-plugin-eslint-comments": "4.5.0",
+		"@eslint-community/eslint-plugin-eslint-comments": "4.8.1",
 		"@eslint/js": "9.29.0",
 		"@release-it/conventional-changelog": "10.0.1",
 		"@types/eslint-plugin-markdown": "2.0.2",
