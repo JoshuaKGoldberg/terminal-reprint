@@ -107,12 +107,7 @@ describe(startPrinter, () => {
 
 		expect(print).toHaveBeenCalledTimes(2);
 		expect(mockStreamCall.mock.calls).toEqual([
-			["cursorTo", 0, 0],
-			["cursorTo", 0, 1],
-			["clearLine", 0],
-			["write", "B"],
-			["cursorTo", 0, 2],
-			["write", "c"],
+			["write", "\u001B[2;1HB\u001B[3;1Hc"],
 		]);
 	});
 
@@ -130,10 +125,7 @@ describe(startPrinter, () => {
 
 		printer.reprint();
 
-		expect(mockStreamCall.mock.calls).toEqual([
-			["cursorTo", 0, 0],
-			["cursorTo", 0, 2],
-		]);
+		expect(mockStreamCall).not.toHaveBeenCalled();
 	});
 
 	it("shows the cursor when the printer is disposed", () => {
