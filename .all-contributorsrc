@@ -26,6 +26,5 @@
   ],
   "projectName": "terminal-reprint",
   "projectOwner": "JoshuaKGoldberg",
-  "repoType": "github",
-  "commitConvention": "angular"
+  "repoType": "github"
 }
